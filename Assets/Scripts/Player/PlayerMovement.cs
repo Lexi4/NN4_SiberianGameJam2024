@@ -14,6 +14,8 @@ namespace Player
         [SerializeField] private float lanternRotationSpeedMultiplier = 10f;
         private PlayerInput _playerInput;
 
+        private float Input => _playerInput.GetMoveInput();
+
         private void Awake()
         {
             _playerInput = GetComponent<PlayerInput>();
@@ -33,8 +35,6 @@ namespace Player
             RotateLantern(moveAmount);
             transform.position = newPos;
         }
-
-        private float Input => _playerInput.GetMoveInput();
 
         private void RotateLantern(float amount)
         {
