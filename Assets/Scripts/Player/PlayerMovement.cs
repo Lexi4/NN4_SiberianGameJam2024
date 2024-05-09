@@ -6,22 +6,17 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement")] 
-        [SerializeField, Range(0, 20)] private float maxWalkSpeed;
+        [Header("Movement")] [SerializeField, Range(0, 20)]
+        private float maxWalkSpeed;
+
         [SerializeField] private AnimationCurve walkSpeedCurve;
         [SerializeField] private float walkAccelerationTime;
         [SerializeField, Range(0, 20)] private float maxSprintSpeed;
         [SerializeField] private AnimationCurve sprintSpeedCurve;
         [SerializeField] private float sprintAccelerationTime;
 
-        [Header("Lantern")] 
-        [SerializeField] private GameObject body;
-        [SerializeField] private Transform hand;
-        [SerializeField] private GameObject lantern;
-        [SerializeField] private float lanternRotationAngle = -15f;
-        [SerializeField] private float lanternRotationSpeedMultiplier = 10f;
-        [SerializeField] private float lanternReturnSpeed = 5f;
-
+        [Header("Other")] [SerializeField] private GameObject body;
+        public Action<float> onMove;
         private PlayerInput _playerInput;
         private bool _isOnFullWalkSpeed;
         private bool _isSprinting;
@@ -42,8 +37,7 @@ namespace Player
         private void Update()
         {
             float amount = Move();
-            RotateLantern(amount);
-            UpdateLanternState();
+            onMove?.Invoke(amount);
             Flip();
         }
 
@@ -116,28 +110,9 @@ namespace Player
 
         private float GetWalkSpeed(float t)
             => walkSpeedCurve.Evaluate(t / walkAccelerationTime) * maxWalkSpeed;
+        
 
-
-        private void RotateLantern(float amount)
-        {
-            float desAngle = lanternRotationAngle * Mathf.Sign(amount);
-            if (Mathf.Abs(amount) < 0.001f)
-            {
-                desAngle = 0;
-                amount = lanternReturnSpeed * Time.deltaTime;
-            }
-            else
-            {
-                amount *= lanternRotationSpeedMultiplier;
-            }
-
-            _currentLanternRotation = Mathf.Lerp(_currentLanternRotation, desAngle, Mathf.Abs(amount));
-            hand.transform.rotation = quaternion.Euler(0, 0, _currentLanternRotation * Mathf.Deg2Rad);
-        }
-
-
-        private void UpdateLanternState() => lantern.SetActive(!_isSprinting);
-
+        public bool IsSprinting => _isSprinting;
 
         private void Flip()
         {
