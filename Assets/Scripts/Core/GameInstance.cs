@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameInstance : MonoBehaviour
 {
+    [SerializeFiled] private float zxc;
     // Start is called before the first frame update
     void Start()
     {
