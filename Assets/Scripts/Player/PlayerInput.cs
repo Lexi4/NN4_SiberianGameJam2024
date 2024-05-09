@@ -18,12 +18,6 @@ namespace Player
             _playerInputActions.Player.Enable();
             _playerInputActions.Player.Sprint.started += OnSprintStarted;
             _playerInputActions.Player.Sprint.canceled += OnSprintEnded;
-            _playerInputActions.Player.Jump.performed += OnJumpPerformed;
-        }
-
-        private void OnJumpPerformed(InputAction.CallbackContext obj)
-        {
-           
         }
 
         private void OnSprintEnded(InputAction.CallbackContext obj)

@@ -1,32 +1,37 @@
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Movement")] [SerializeField, Range(0, 20)]
-        private float maxWalkSpeed;
-
+        [Header("Movement")] 
+        [SerializeField, Range(0, 20)] private float maxWalkSpeed;
         [SerializeField] private AnimationCurve walkSpeedCurve;
         [SerializeField] private float walkAccelerationTime;
         [SerializeField, Range(0, 20)] private float maxSprintSpeed;
         [SerializeField] private AnimationCurve sprintSpeedCurve;
         [SerializeField] private float sprintAccelerationTime;
 
-        [Header("Lantern")] [SerializeField] private GameObject body;
+        [Header("Lantern")] 
+        [SerializeField] private GameObject body;
+        [SerializeField] private Transform hand;
         [SerializeField] private GameObject lantern;
-        [SerializeField] private Transform leftLanternPlaceholder, rightLanternPlaceholder;
-        [SerializeField] private float maxLanternRotation = 15f;
-        [SerializeField] private float lanternReturnSpeedMultiplier = 10f;
+        [SerializeField] private float lanternRotationAngle = -15f;
         [SerializeField] private float lanternRotationSpeedMultiplier = 10f;
         [SerializeField] private float lanternReturnSpeed = 5f;
+
         private PlayerInput _playerInput;
         private bool _isOnFullWalkSpeed;
         private bool _isSprinting;
         private float _currentSpeed;
         private float _prevInput;
         private float _tWalk, _tSprint;
+
+        private float _currentLanternRotation;
+        private readonly Quaternion _leftRot = Quaternion.Euler(0, 180, 0);
+        private readonly Quaternion _rightRot = Quaternion.Euler(0, 0, 0);
         private float Input => _playerInput.GetMoveInput();
 
         private void Awake()
@@ -47,6 +52,7 @@ namespace Player
             float moveAmount = GetSpeed() * Time.deltaTime * Input;
             Vector3 newPos = transform.position + Vector3.right * moveAmount;
             transform.position = newPos;
+
             _prevInput = Input;
             return moveAmount;
         }
@@ -114,39 +120,32 @@ namespace Player
 
         private void RotateLantern(float amount)
         {
-            Quaternion desiredRot;
+            float desAngle = lanternRotationAngle * Mathf.Sign(amount);
             if (Mathf.Abs(amount) < 0.001f)
             {
-                desiredRot = Quaternion.Euler(0, 0, 0);
-                amount = lanternReturnSpeed * Time.deltaTime * lanternReturnSpeedMultiplier;
+                desAngle = 0;
+                amount = lanternReturnSpeed * Time.deltaTime;
             }
             else
             {
-                desiredRot = Quaternion.Euler(0, 0,
-                    -maxLanternRotation * Mathf.Sign(amount));
-
                 amount *= lanternRotationSpeedMultiplier;
             }
 
-            lantern.transform.rotation = Quaternion.Slerp(
-                lantern.transform.rotation,
-                desiredRot,
-                Mathf.Abs(amount));
+            _currentLanternRotation = Mathf.Lerp(_currentLanternRotation, desAngle, Mathf.Abs(amount));
+            hand.transform.rotation = quaternion.Euler(0, 0, _currentLanternRotation * Mathf.Deg2Rad);
         }
 
+
         private void UpdateLanternState() => lantern.SetActive(!_isSprinting);
+
 
         private void Flip()
         {
             if (Input == 0)
                 return;
             bool isMoveLeft = Input < 0;
-            body.GetComponent<SpriteRenderer>().flipX = isMoveLeft;
 
-            if (isMoveLeft)
-                lantern.transform.position = leftLanternPlaceholder.position;
-            else
-                lantern.transform.position = rightLanternPlaceholder.position;
+            body.transform.rotation = isMoveLeft ? _leftRot : _rightRot;
         }
 
         private void OnValidate()
