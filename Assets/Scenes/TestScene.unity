@@ -806,7 +806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff852d2036682384f80af72df5f4ce1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWalkSpeed: 5
+  maxWalkSpeed: 10
   walkSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -840,8 +840,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  walkAccelerationTime: 0.4
-  maxSprintSpeed: 15
+  walkAccelerationTime: 1
+  maxSprintSpeed: 50
   sprintSpeedCurve:
     serializedVersion: 2
     m_Curve:

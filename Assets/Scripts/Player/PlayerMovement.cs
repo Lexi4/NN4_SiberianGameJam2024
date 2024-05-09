@@ -26,7 +26,7 @@ namespace Player
         private bool _isSprinting;
         private float _currentSpeed;
         private float _prevInput;
-        private float _t;
+        private float _tWalk, _tSprint;
         private float Input => _playerInput.GetMoveInput();
 
         private void Awake()
@@ -36,40 +36,42 @@ namespace Player
 
         private void Update()
         {
-            Move();
+            float amount = Move();
+            RotateLantern(amount);
+            UpdateLanternState();
             Flip();
         }
 
-        private void Move()
+        private float Move()
         {
             float moveAmount = GetSpeed() * Time.deltaTime * Input;
             Vector3 newPos = transform.position + Vector3.right * moveAmount;
-            RotateLantern(moveAmount);
             transform.position = newPos;
             _prevInput = Input;
-
-            lantern.SetActive(!_isSprinting);
+            return moveAmount;
         }
 
-       // private float _tWalk,_tSprint;
-        
+
         private float GetSpeed()
         {
             bool isInputDifferent =
                 (int)Mathf.Round(Mathf.Sign(_prevInput)) != (int)Mathf.Round(Mathf.Sign(Input));
             bool isInputZero = Mathf.Abs(Input) <= 0.01f;
+
             _isSprinting = false;
             if (isInputZero || isInputDifferent) // stand still or changed direction
             {
-                _currentSpeed = 0;
-                _t = 0;
-                _isOnFullWalkSpeed = false;
+                ResetMoving();
             }
-            else if (!_isOnFullWalkSpeed) // only walking
+            else if (!_playerInput.IsSprinting() || !_isOnFullWalkSpeed) // only walking
             {
-                _t += Time.deltaTime;
-                if (_t > walkAccelerationTime) _t = walkAccelerationTime;
-                _currentSpeed = GetWalkSpeed(_t);
+                _tSprint = 0;
+                _tWalk += Time.deltaTime;
+
+                if (_tWalk > walkAccelerationTime)
+                    _tWalk = walkAccelerationTime;
+
+                _currentSpeed = GetWalkSpeed(_tWalk);
 
                 if (Mathf.Abs(_currentSpeed - maxWalkSpeed) <= 0.001f)
                 {
@@ -77,33 +79,37 @@ namespace Player
                     _isOnFullWalkSpeed = true;
                 }
             }
-            else if (!_playerInput.IsSprinting()) // walk after sprint
+            else if (_playerInput.IsSprinting() && _isOnFullWalkSpeed) // sprinting
             {
-                _currentSpeed = maxWalkSpeed;
-            }
-            else if (_playerInput.IsSprinting()) // sprinting
-            {
-                if (Mathf.Abs(_currentSpeed - maxWalkSpeed) <= 0.001f) _t = 0;
-
-                _t += Time.deltaTime;
-                if (_t > sprintAccelerationTime) _t = sprintAccelerationTime;
-                _currentSpeed = GetSprintSpeed(_t);
+                _tSprint += Time.deltaTime;
                 _isSprinting = true;
+                if (_tSprint > sprintAccelerationTime)
+                    _tSprint = sprintAccelerationTime;
+
+                _currentSpeed = GetSprintSpeed(_tSprint);
+
+                if (Mathf.Abs(_currentSpeed - maxSprintSpeed) <= 0.001f)
+                    _currentSpeed = maxSprintSpeed;
             }
+
 
             return _currentSpeed;
         }
 
-        private float GetSprintSpeed(float t)
+        private void ResetMoving()
         {
-            return maxWalkSpeed + sprintSpeedCurve.Evaluate(t / sprintAccelerationTime) *
-                (maxSprintSpeed - maxWalkSpeed);
+            _currentSpeed = 0;
+            _tWalk = 0;
+            _tSprint = 0;
+            _isOnFullWalkSpeed = false;
         }
 
+        private float GetSprintSpeed(float t) =>
+            maxWalkSpeed + sprintSpeedCurve.Evaluate(t / sprintAccelerationTime) *
+            (maxSprintSpeed - maxWalkSpeed);
+
         private float GetWalkSpeed(float t)
-        {
-            return walkSpeedCurve.Evaluate(t / walkAccelerationTime) * maxWalkSpeed;
-        }
+            => walkSpeedCurve.Evaluate(t / walkAccelerationTime) * maxWalkSpeed;
 
 
         private void RotateLantern(float amount)
@@ -128,11 +134,12 @@ namespace Player
                 Mathf.Abs(amount));
         }
 
+        private void UpdateLanternState() => lantern.SetActive(!_isSprinting);
+
         private void Flip()
         {
             if (Input == 0)
                 return;
-
             bool isMoveLeft = Input < 0;
             body.GetComponent<SpriteRenderer>().flipX = isMoveLeft;
 
@@ -140,6 +147,14 @@ namespace Player
                 lantern.transform.position = leftLanternPlaceholder.position;
             else
                 lantern.transform.position = rightLanternPlaceholder.position;
+        }
+
+        private void OnValidate()
+        {
+            if (maxSprintSpeed < maxWalkSpeed)
+            {
+                maxSprintSpeed = maxWalkSpeed + 0.01f;
+            }
         }
     }
 }
