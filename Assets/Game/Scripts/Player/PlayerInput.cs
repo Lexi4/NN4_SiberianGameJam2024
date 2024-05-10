@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,6 +6,7 @@ namespace Game.Scripts.Player
 {
     public class PlayerInput : MonoBehaviour
     {
+        public event Action onInteract;
         private PlayerInputActions _playerInputActions;
         private bool _isRunning;
 
@@ -33,6 +35,7 @@ namespace Game.Scripts.Player
 
         private void OnInteract(InputAction.CallbackContext obj)
         {
+            onInteract?.Invoke();
         }
 
         private void OnRunEnded(InputAction.CallbackContext obj)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1302995667770508954}
   m_Layer: 0
   m_Name: Lantern
-  m_TagString: Untagged
+  m_TagString: Lantern
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,8 +98,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53cf1bca9df87b842b203f93c118bb74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fuel: 100
-  fuelBurnSpeed: 0.1
+  stages:
+  - capacity: 33.33333
+    currentFuel: 33.33333
+    lanternRadius: 2
+    lightConfig: {fileID: 4424066330453911731, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
+  - capacity: 33.33333
+    currentFuel: 33.33333
+    lanternRadius: 5
+    lightConfig: {fileID: 8837082676441904764, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
+  - capacity: 33.33333
+    currentFuel: 33.33333
+    lanternRadius: 10
+    lightConfig: {fileID: 3609425068865475400, guid: 3e222a3b2c6214d418c39161a4addbc7, type: 3}
+  emptyLanternConfig: {fileID: 0}
+  fuelBurnSpeed: 10
   hand: {fileID: 8548456993640938983}
   player: {fileID: 4489082353294283607}
   lanternRotationAngle: -7
@@ -109,6 +122,8 @@ MonoBehaviour:
   - {fileID: 5883301293279896446}
   - {fileID: 8300915344423931136}
   lanternLight: {fileID: 8759594819702843344}
+  lanternRadius: 0
+  lanternPower: 0
 --- !u!1 &1545362951303833899
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +383,7 @@ Transform:
   m_GameObject: {fileID: 4926874079508277536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.502, y: 0.705, z: 0}
+  m_LocalPosition: {x: 0.484, y: 0.701, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -401,13 +416,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7221089620496786699}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -1, w: -0.00000035762784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.08, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1770086674239822988}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8759594819702843344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,41 +568,14 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   walkAccelerationTime: 1
-  maxSprintSpeed: 20
-  sprintSpeedCurve:
+  maxRunSpeed: 10.01
+  runSpeedCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.9618263
-      value: 0.9921894
-      inSlope: 0.26697063
-      outSlope: 0.26697063
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.10505455
-      outSlope: 0.10505455
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.735888
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sprintAccelerationTime: 3
+  runAccelerationTime: 0
   body: {fileID: 8941315605344969941}
 --- !u!50 &6382826669405053486
 Rigidbody2D:
@@ -605,7 +593,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 1
   m_GravityScale: 2.5
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 72a840c21ade09e489038fc0ee648d4f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

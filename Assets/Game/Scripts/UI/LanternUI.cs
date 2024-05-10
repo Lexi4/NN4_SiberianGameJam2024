@@ -18,12 +18,35 @@ namespace Game.Scripts.UI
         private void Awake()
         {
             _lantern = GameObject.FindWithTag("Lantern").GetComponent<Lantern>();
+            if (_lantern)
+            {
+                _update = true;
+            }
         }
 
+        private bool _update;
         private void Start()
         {
+            if (!_update) return;
+            
             _stage = stages[_lantern.StageId];
-            _lantern.onStageChanged += OnStageChanged;
+            _lantern.OnStageChanged += OnStageChanged;
+            _lantern.OnEmptied += OnEmptied;
+
+        }
+        private void Update()
+        {
+            if (!_update) return;
+            
+            float fill = GetNormalizedFuel();
+            if (Mathf.Abs(fill) <= 0.0025f)
+                fill = 0;
+
+            _stage.fillAmount = fill;
+
+        }
+        private void OnEmptied()
+        {
         }
 
         private void OnStageChanged(int stageId)
@@ -41,13 +64,6 @@ namespace Game.Scripts.UI
                 stages[i].fillAmount = 0;
         }
 
-        private void Update()
-        {
-            float fill = GetNormalizedFuel();
-            if (Mathf.Abs(fill) <= 0.0025f)
-                fill = 0;
-
-            _stage.fillAmount = fill;
-        }
+       
     }
 }

@@ -11,6 +11,8 @@ namespace Game.Scripts.Player
     {
         [SerializeField] public float capacity;
         [SerializeField] public float currentFuel;
+        [SerializeField] public float lanternRadius;
+        [SerializeField] public Light2D lightConfig;
 
         public void DecreaseFuel(float amount)
         {
@@ -24,6 +26,7 @@ namespace Game.Scripts.Player
     public class Lantern : MonoBehaviour
     {
         [SerializeField] private List<Stage> stages;
+        [SerializeField] private Light2D emptyLanternConfig;
         [SerializeField] private float fuelBurnSpeed = 0.1f;
         [SerializeField] private Transform hand;
         [SerializeField] private PlayerMovementRb player;
@@ -34,11 +37,10 @@ namespace Game.Scripts.Player
         [SerializeField] private Light2D lanternLight;
 
         private float _currentLanternRotation;
-        public event Action onEmptied;
-        public event Action<int> onStageChanged;
+        public event Action OnEmptied;
+        public event Action<int> OnStageChanged;
 
         private int _stageId;
-        private float _totalFuel;
         private Stage _stage;
         private bool _isActive;
         private bool _isEmpty;
@@ -47,17 +49,25 @@ namespace Game.Scripts.Player
         {
             _stageId = stages.Count - 1;
             _stage = stages[_stageId];
-            foreach (var stage in stages)
-            {
-                _totalFuel += stage.capacity;
-            }
 
+            SetLight(_stage.lightConfig);
             UpdateStage();
+        }
+
+        private void SetLight(Light2D config)
+        {
+            lanternLight.color = config.color;
+            lanternLight.intensity = config.intensity;
+            lanternLight.pointLightInnerRadius = config.pointLightInnerRadius;
+            lanternLight.pointLightOuterRadius = config.pointLightOuterRadius;
+            lanternLight.falloffIntensity = config.falloffIntensity;
+            lanternLight.shadowIntensity = config.shadowIntensity;
         }
 
         /* AI Perception */
         //NOTE: Edge of light to AI eye
         public float lanternRadius;
+
         //NOTE: Power that choose effect on Enemy (0,3)
         public int lanternPower;
 
@@ -99,14 +109,23 @@ namespace Game.Scripts.Player
             if (!_stage.IsEmpty) return;
             if (_stageId - 1 < 0)
             {
+                SetLight(emptyLanternConfig);
+                //DisableLight();
                 _isEmpty = true;
-                onEmptied?.Invoke();
+                OnEmptied?.Invoke();
+
                 return;
             }
 
             _stageId--;
-            onStageChanged?.Invoke(_stageId);
+            OnStageChanged?.Invoke(_stageId);
             _stage = stages[_stageId];
+            SetLight(_stage.lightConfig);
+        }
+
+        private void DisableLight()
+        {
+            lanternLight.intensity = 0;
         }
 
         private void Show()
