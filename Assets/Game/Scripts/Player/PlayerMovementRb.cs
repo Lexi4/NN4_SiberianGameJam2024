@@ -6,16 +6,16 @@ namespace Game.Scripts.Player
 {
     public class PlayerMovementRb : MonoBehaviour
     {
-        [Header("Movement")] [SerializeField, Range(0, 20)]
-        private float maxWalkSpeed;
-
+        [Header("Movement")] 
+        [SerializeField, Range(0, 20)] private float maxWalkSpeed;
         [SerializeField] private AnimationCurve walkSpeedCurve;
         [SerializeField] private float walkAccelerationTime;
         [SerializeField, Range(0, 20)] private float maxSprintSpeed;
         [SerializeField] private AnimationCurve sprintSpeedCurve;
         [SerializeField] private float sprintAccelerationTime;
 
-        [Header("Other")] [SerializeField] private GameObject body;
+        [Header("Other")] 
+        [SerializeField] private GameObject body;
 
         public event Action<float> OnMove;
         private Rigidbody2D _rb;
@@ -30,7 +30,8 @@ namespace Game.Scripts.Player
         private readonly Quaternion _leftRot = Quaternion.Euler(0, 180, 0);
         private readonly Quaternion _rightRot = Quaternion.Euler(0, 0, 0);
         private float Input => _playerInput.GetMoveInput();
-
+        public Vector2 CurrentVelocity => _rb.velocity;
+        public bool IsSprinting => _isSprinting;
         private void Awake()
         {
             _playerInput = GetComponent<PlayerInput>();
@@ -119,7 +120,7 @@ namespace Game.Scripts.Player
             => walkSpeedCurve.Evaluate(t / walkAccelerationTime) * maxWalkSpeed;
 
 
-        public bool IsSprinting => _isSprinting;
+    
 
         private void Flip()
         {

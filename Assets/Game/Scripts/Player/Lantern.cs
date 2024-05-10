@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
-using Game.Scripts.Player;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
-namespace Player
+namespace Game.Scripts.Player
 {
     public class Lantern : MonoBehaviour
     {
@@ -16,6 +15,7 @@ namespace Player
         [SerializeField] private float lanternRotationSpeedMultiplier = 10f;
         [SerializeField] private float lanternReturnSpeed = 5f;
         [SerializeField] private List<SpriteRenderer> lanternParts;
+        [SerializeField] private Light2D lanternLight;
         private float _currentLanternRotation;
 
         private void Start()
@@ -35,11 +35,13 @@ namespace Player
 
         private void Show()
         {
+            lanternLight.enabled = true;
             foreach (var part in lanternParts) part.enabled = true;
         }
 
         private void Hide()
         {
+            lanternLight.enabled = false;
             foreach (var part in lanternParts) part.enabled = false;
         }
 

@@ -1,8 +1,8 @@
 using System;
-using Unity.Mathematics;
+using Player;
 using UnityEngine;
 
-namespace Player
+namespace Game.Scripts.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
