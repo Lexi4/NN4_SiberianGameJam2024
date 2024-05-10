@@ -11,13 +11,27 @@ namespace Game.Scripts.Player
     {
         [SerializeField] public float capacity;
         [SerializeField] public float currentFuel;
-        [SerializeField] public float lanternRadius;
+        [SerializeField] public float burnSpeed;
+        [SerializeField] public float lanternEffectiveRadius;
+        [SerializeField] public float lanternPower;
         [SerializeField] public Light2D lightConfig;
 
-        public void DecreaseFuel(float amount)
+        public void DecreaseFuel(float dt)
         {
-            currentFuel -= amount;
+            currentFuel -= burnSpeed * dt;
             currentFuel = Mathf.Clamp(currentFuel, 0, capacity);
+        }
+
+        public float AddFuel(float amount)
+        {
+            float emptySpace = capacity - currentFuel;
+
+            currentFuel = Mathf.Clamp(currentFuel + amount,
+                currentFuel,
+                capacity);
+
+            float leftover = Mathf.Clamp(amount - emptySpace, 0, amount);
+            return leftover;
         }
 
         public bool IsEmpty => currentFuel <= 0.001f;
@@ -27,7 +41,6 @@ namespace Game.Scripts.Player
     {
         [SerializeField] private List<Stage> stages;
         [SerializeField] private Light2D emptyLanternConfig;
-        [SerializeField] private float fuelBurnSpeed = 0.1f;
         [SerializeField] private Transform hand;
         [SerializeField] private PlayerMovementRb player;
         [SerializeField] private float lanternRotationAngle = -15f;
@@ -36,14 +49,23 @@ namespace Game.Scripts.Player
         [SerializeField] private List<SpriteRenderer> lanternParts;
         [SerializeField] private Light2D lanternLight;
 
+        private readonly Stage _emptyStage = new() { capacity = 1f };
         private float _currentLanternRotation;
         public event Action OnEmptied;
+        public event Action OnAddFuel;
         public event Action<int> OnStageChanged;
 
         private int _stageId;
         private Stage _stage;
         private bool _isActive;
         private bool _isEmpty;
+        public float Fuel => _stage.currentFuel;
+        public float StageCapacity => _stage.capacity;
+        public bool IsEmpty => _isEmpty;
+
+        public int StageId => _stageId;
+        public float LanternRadius => _isEmpty ? 0 : _stage.lanternEffectiveRadius;
+        public float LanternPower => _isEmpty ? 0 : _stage.lanternPower;
 
         private void Awake()
         {
@@ -52,6 +74,23 @@ namespace Game.Scripts.Player
 
             SetLight(_stage.lightConfig);
             UpdateStage();
+        }
+
+
+        private void Start()
+        {
+            player.OnMove += OnMove;
+        }
+
+
+        private void Update()
+        {
+            if (player.IsRunning)
+                Hide();
+            else
+                Show();
+
+            UseFuel();
         }
 
         private void SetLight(Light2D config)
@@ -64,54 +103,26 @@ namespace Game.Scripts.Player
             lanternLight.shadowIntensity = config.shadowIntensity;
         }
 
-        /* AI Perception */
-        //NOTE: Edge of light to AI eye
-        public float lanternRadius;
-
-        //NOTE: Power that choose effect on Enemy (0,3)
-        public int lanternPower;
-
-        private void Start()
-        {
-            player.OnMove += OnMove;
-        }
-
-        private void Update()
-        {
-            if (player.IsRunning)
-                Hide();
-            else
-                Show();
-
-            UseFuel();
-        }
-
-        public float Fuel => _stage.currentFuel;
-        public float StageCapacity => _stage.capacity;
-        public bool IsEmpty => _isEmpty;
-
-        public int StageId => _stageId;
 
         private void UseFuel()
         {
             if (_isActive && !_isEmpty)
-                _stage.DecreaseFuel(fuelBurnSpeed * Time.deltaTime);
+                _stage.DecreaseFuel(Time.deltaTime);
             UpdateStage();
         }
 
-        private void AddFuel(float amount)
-        {
-            _isEmpty = false;
-        }
 
         private void UpdateStage()
         {
             if (!_stage.IsEmpty) return;
-            if (_stageId - 1 < 0)
+            if (_stageId == 0)
             {
+                if (_isEmpty)
+                    return;
+
                 SetLight(emptyLanternConfig);
-                //DisableLight();
                 _isEmpty = true;
+                _stage = _emptyStage;
                 OnEmptied?.Invoke();
 
                 return;
@@ -126,6 +137,25 @@ namespace Game.Scripts.Player
         private void DisableLight()
         {
             lanternLight.intensity = 0;
+        }
+
+        public void AddFuel(float amount)
+        {
+            if (amount > 0.01f) _isEmpty = false;
+
+            int idx = _stageId;
+            float leftover = amount;
+            while (idx < stages.Count && leftover >= 0.001f)
+            {
+                _stageId = idx;
+                leftover = stages[idx].AddFuel(leftover);
+                idx++;
+                Debug.Log($"{leftover} : {idx}");
+            }
+
+            OnAddFuel?.Invoke();
+            _stage = stages[_stageId];
+            SetLight(_stage.lightConfig);
         }
 
         private void Show()
