@@ -55,6 +55,12 @@ namespace Game.Scripts.Player
             UpdateStage();
         }
 
+        /* AI Perception */
+        //NOTE: Edge of light to AI eye
+        public float lanternRadius;
+        //NOTE: Power that choose effect on Enemy (0,3)
+        public int lanternPower;
+
         private void Start()
         {
             player.OnMove += OnMove;
