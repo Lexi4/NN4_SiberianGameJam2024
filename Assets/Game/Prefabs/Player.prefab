@@ -75,7 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
+    type: 3}
   m_Color: {r: 0.7882353, g: 0.3629635, b: 0.03921567, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,15 +103,18 @@ MonoBehaviour:
   - capacity: 33.33333
     currentFuel: 33.33333
     lanternRadius: 2
-    lightConfig: {fileID: 4424066330453911731, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
+    lightConfig: {fileID: 4424066330453911731, guid: e35c86386acfa9f40adea5ee3c24de69,
+      type: 3}
   - capacity: 33.33333
     currentFuel: 33.33333
     lanternRadius: 5
-    lightConfig: {fileID: 8837082676441904764, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
+    lightConfig: {fileID: 8837082676441904764, guid: 526c1454a18677a44b33adb0d9289338,
+      type: 3}
   - capacity: 33.33333
     currentFuel: 33.33333
     lanternRadius: 10
-    lightConfig: {fileID: 3609425068865475400, guid: 3e222a3b2c6214d418c39161a4addbc7, type: 3}
+    lightConfig: {fileID: 3609425068865475400, guid: 3e222a3b2c6214d418c39161a4addbc7,
+      type: 3}
   emptyLanternConfig: {fileID: 0}
   fuelBurnSpeed: 10
   hand: {fileID: 8548456993640938983}
@@ -122,8 +126,8 @@ MonoBehaviour:
   - {fileID: 5883301293279896446}
   - {fileID: 8300915344423931136}
   lanternLight: {fileID: 8759594819702843344}
-  lanternRadius: 0
-  lanternPower: 0
+  lanternRadius: 2
+  lanternPower: 2
 --- !u!1 &1545362951303833899
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,7 +279,8 @@ SpriteRenderer:
   m_SortingLayerID: -812370709
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
+    type: 3}
   m_Color: {r: 0.30980393, g: 0.6431373, b: 0.72156864, a: 1}
   m_FlipX: 0
   m_FlipY: 0

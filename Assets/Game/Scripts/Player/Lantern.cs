@@ -66,10 +66,10 @@ namespace Game.Scripts.Player
 
         /* AI Perception */
         //NOTE: Edge of light to AI eye
-        public float lanternRadius;
+        public float lanternRadius = 3.0f;
 
         //NOTE: Power that choose effect on Enemy (0,3)
-        public int lanternPower;
+        public int lanternPower = 1;
 
         private void Start()
         {
