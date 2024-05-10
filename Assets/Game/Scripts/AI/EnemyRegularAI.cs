@@ -1,37 +1,45 @@
 ﻿using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace AI
 {
     public class EnemyRegularAI : BaseEnemyAI
     {
+        [SerializeField] private float patrolRadius = 2.0f;
+
         public EnemyRegularAI()
         {
             defaultBehaviour = Behaviour_Patrol();
         }
-        private void OnTriggerEnter (Collider other)
+        private void OnTriggerEnter2D (Collider2D other)
         {
-            Debug.Log ($"Collided with: {other.gameObject.name}");
+            Debug.Log ($"{gameObject.name} collided with {other.gameObject.name}");
             
             if (!other.gameObject.CompareTag("Player")) return;
-            target = other.gameObject;
-            ForceBehaviour(Behaviour_Chasing());
+                target = other.gameObject;
         }
-
-        private void OnTriggerStay (Collider other)
+        private void OnTriggerExit2D (Collider2D other)
         {
-            Debug.Log ($"A {other.gameObject.name} is inside the DoorObject trigger");
-        }
-
-        private void OnTriggerExit (Collider other)
-        {
-            Debug.Log ($"A {other.gameObject.name} has exited the DoorObject trigger");
-            ForceBehaviour(Behaviour_Patrol());
+            Debug.Log ($"A {other.gameObject.name} has exited the {gameObject.name} trigger");
+            if (!other.gameObject.CompareTag("Player")) return;
+                target = null;
         }
 
         public IEnumerator Behaviour_Patrol()
         {
             //Walk around. Search something (player)
+            while (!target)
+            {
+                yield return new WaitForSeconds(3.0f);
+                
+                var randomOffset = math.remap(0.0f, 1.0f, -patrolRadius, patrolRadius, Random.value);
+                ai.destination = ai.position + (Vector3.right * randomOffset);
+
+                yield return null;
+            }
+            StartCoroutine(Behaviour_Chasing());
             yield break;
         }
         
@@ -43,9 +51,14 @@ namespace AI
         
         public IEnumerator Behaviour_Chasing()
         {
-            //Go for player
-            
-            yield break;
+            while (target)
+            {
+                ai.destination = target.transform.position;
+                yield return null;
+            }
+            ai.destination = ai.position;
+
+            StartCoroutine(Behaviour_Patrol());
         }
     }
 }
