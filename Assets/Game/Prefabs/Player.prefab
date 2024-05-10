@@ -101,23 +101,35 @@ MonoBehaviour:
   stages:
   - capacity: 33.33333
     currentFuel: 33.33333
-    burnSpeed: 7
+    burnSpeed: 1
     lanternEffectiveRadius: 3
     lanternPower: 1
     lightConfig: {fileID: 4424066330453911731, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
   - capacity: 33.33333
     currentFuel: 33.33333
-    burnSpeed: 7
+    burnSpeed: 2
     lanternEffectiveRadius: 7
     lanternPower: 2
     lightConfig: {fileID: 8837082676441904764, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
   - capacity: 33.33333
     currentFuel: 33.33333
-    burnSpeed: 7
+    burnSpeed: 5
     lanternEffectiveRadius: 12
     lanternPower: 3
     lightConfig: {fileID: 3609425068865475400, guid: 3e222a3b2c6214d418c39161a4addbc7, type: 3}
-  emptyLanternConfig: {fileID: 0}
+  emptyStage:
+    capacity: 0
+    currentFuel: 1
+    burnSpeed: 0
+    lanternEffectiveRadius: 0
+    lanternPower: 0
+    lightConfig: {fileID: 6635770537910611243, guid: 1bddb2a3152c1e640bbfab574806dcb5, type: 3}
+  lanternLight: {fileID: 8759594819702843344}
+  flashCost: 25
+  flashRadius: 15
+  flashAnimTime: 0.8
+  flashCooldown: 2
+  flashLight: {fileID: 3224260848483370953, guid: e43b8be5704616c44ae4a9c17beb0d00, type: 3}
   hand: {fileID: 8548456993640938983}
   player: {fileID: 4489082353294283607}
   lanternRotationAngle: -7
@@ -126,7 +138,6 @@ MonoBehaviour:
   lanternParts:
   - {fileID: 5883301293279896446}
   - {fileID: 8300915344423931136}
-  lanternLight: {fileID: 8759594819702843344}
 --- !u!1 &1367516678886614918
 GameObject:
   m_ObjectHideFlags: 0

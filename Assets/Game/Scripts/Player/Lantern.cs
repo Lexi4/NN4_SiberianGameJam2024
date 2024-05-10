@@ -59,6 +59,7 @@ namespace Game.Scripts.Player
         [Header("Flash")] [SerializeField] private float flashCost;
         [SerializeField] private float flashRadius;
         [SerializeField] private float flashAnimTime = 0.4f;
+        [SerializeField] private float flashCooldown = 1f;
         [SerializeField] private Light2D flashLight;
 
         [Header("    Movement reaction")] [SerializeField]
@@ -80,6 +81,7 @@ namespace Game.Scripts.Player
         private Stage _stage;
         private bool _isActive;
         private bool _isEmpty;
+        private bool _canUseFlash;
         public int StageCount => stages.Count;
         public bool IsEmpty => _isEmpty;
 
@@ -101,6 +103,7 @@ namespace Game.Scripts.Player
         {
             _stageId = stages.Count - 1;
             _stage = stages[_stageId];
+            _canUseFlash = true;
 
             SetLight(_stage.lightConfig);
             UpdateStage();
@@ -186,10 +189,13 @@ namespace Game.Scripts.Player
 
         public void UseFlash()
         {
-            if (_isEmpty)
+            if (_isEmpty || !_canUseFlash)
                 return;
+            
             DecreaseFuel(flashCost);
             onFlashUsed?.Invoke(flashRadius);
+            
+            StartCoroutine(FlashCooldownRoutine());
             StartCoroutine(FlashAnimRoutine());
         }
 
@@ -203,6 +209,13 @@ namespace Game.Scripts.Player
                 InterpolateBetweenLights(flashLight, CurrentStageLight, t / flashAnimTime, lanternLight);
                 yield return null;
             }
+        }
+
+        private IEnumerator FlashCooldownRoutine()
+        {
+            _canUseFlash = false;
+            yield return new WaitForSeconds(flashCooldown);
+            _canUseFlash = true;
         }
 
         private void InterpolateBetweenLights(Light2D from, Light2D to, float t, Light2D dist)

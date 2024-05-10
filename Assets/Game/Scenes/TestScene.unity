@@ -4341,14 +4341,6 @@ PrefabInstance:
       value: LightMin
       objectReference: {fileID: 0}
     - target: {fileID: 203301349766902427, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 203301349766902427, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 203301349766902427, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.24589372
       objectReference: {fileID: 0}
@@ -4407,14 +4399,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1489391676}
     m_Modifications:
     - target: {fileID: 3718008787682082435, guid: 1bddb2a3152c1e640bbfab574806dcb5, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718008787682082435, guid: 1bddb2a3152c1e640bbfab574806dcb5, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3718008787682082435, guid: 1bddb2a3152c1e640bbfab574806dcb5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.4107158
       objectReference: {fileID: 0}
@@ -4471,14 +4455,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1489391676}
     m_Modifications:
-    - target: {fileID: 69462729510984817, guid: 3e222a3b2c6214d418c39161a4addbc7, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 69462729510984817, guid: 3e222a3b2c6214d418c39161a4addbc7, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 69462729510984817, guid: 3e222a3b2c6214d418c39161a4addbc7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.13512595
@@ -4541,14 +4517,6 @@ PrefabInstance:
       value: LightMid
       objectReference: {fileID: 0}
     - target: {fileID: 8592262160287688139, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8592262160287688139, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8592262160287688139, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.05524774
       objectReference: {fileID: 0}
@@ -4605,42 +4573,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1684835650}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: flashCost
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: flashLight
-      value: 
-      objectReference: {fileID: 3224260848483370953, guid: e43b8be5704616c44ae4a9c17beb0d00, type: 3}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: flashAnimTime
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: emptyLanternConfig
-      value: 
-      objectReference: {fileID: 6635770537910611243, guid: 1bddb2a3152c1e640bbfab574806dcb5, type: 3}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: emptyStage.currentFuel
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: emptyStage.lightConfig
-      value: 
-      objectReference: {fileID: 6635770537910611243, guid: 1bddb2a3152c1e640bbfab574806dcb5, type: 3}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: stages.Array.data[0].burnSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: stages.Array.data[1].burnSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1302995667770508954, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
-      propertyPath: stages.Array.data[2].burnSpeed
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7086658175548455297, guid: b13ffd9e7ae7a8b41ad0f0b39046d1df, type: 3}
       propertyPath: m_Mesh
       value: 
