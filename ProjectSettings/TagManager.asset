@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameInstance
   - EnemyRegular
+  - Lantern
   layers:
   - Default
   - TransparentFX

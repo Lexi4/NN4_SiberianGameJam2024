@@ -18,12 +18,11 @@ namespace Game.Scripts.Player
 
         private void CheckState()
         {
-            Vector2 vel = playerMovement.CurrentVelocity;
+            float speed = playerMovement.CurrentSpeed;
 
-            float velXAbs = Mathf.Abs(vel.x);
-            if (velXAbs <= 0.01f) // Idle
+            if (Mathf.Abs(speed) <= 0.01f) // Idle
                 SetIdle();
-            else if (!playerMovement.IsSprinting) // Walk
+            else if (!playerMovement.IsRunning) // Walk
                 SetWalk();
             else // Run
                 SetRun();
