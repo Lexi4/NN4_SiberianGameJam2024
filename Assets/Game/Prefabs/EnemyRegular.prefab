@@ -95,8 +95,7 @@ GameObject:
   - component: {fileID: 2293999927375654700}
   - component: {fileID: 3546468489110265230}
   - component: {fileID: 2509865925173334866}
-  - component: {fileID: 1091003289219307647}
-  - component: {fileID: 8139299338604119838}
+  - component: {fileID: 2104310925942329402}
   - component: {fileID: 111945283065256557}
   - component: {fileID: 742432783587229302}
   - component: {fileID: 7020783800517414775}
@@ -136,9 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e2f3529b64ed48d0a635ffd653f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiPath: {fileID: 1091003289219307647}
+  aiPath: {fileID: 0}
   viewingZone: {fileID: 742432783587229302}
-  patrolRadius: 5
+  patrolRadius: 8
   patrolInterval: 2.5
 --- !u!114 &2509865925173334866
 MonoBehaviour:
@@ -168,7 +167,7 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &1091003289219307647
+--- !u!114 &2104310925942329402
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -193,7 +192,7 @@ MonoBehaviour:
   repathRateCompatibility: NaN
   canSearchCompability: 0
   orientation: 1
-  enableRotation: 0
+  enableRotation: 1
   autoRepath:
     mode: 2
     interval: 0.5
@@ -205,25 +204,11 @@ MonoBehaviour:
   rotationSpeed: 360
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
-  endReachedDistance: 0.2
-  alwaysDrawGizmos: 1
+  endReachedDistance: 0.5
+  alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
   constrainInsideGraph: 0
---- !u!114 &8139299338604119838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3589511985972179010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  target: {fileID: 0}
 --- !u!50 &111945283065256557
 Rigidbody2D:
   serializedVersion: 4
@@ -320,7 +305,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 8
 --- !u!1 &4403568525064707911
 GameObject:
   m_ObjectHideFlags: 0

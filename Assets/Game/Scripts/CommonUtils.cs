@@ -1,9 +1,27 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Scripts
 {
+    public class Utils
+    {
+        public static Vector3 PosToGround(Vector3 source)
+        {
+            var origin = source;
+            origin.y += 1.0f;
+            
+            var Hits = Physics2D.RaycastAll(origin, Vector3.down, float.PositiveInfinity, LayerMask.GetMask("Obstacle"));
+
+            foreach (var hit in Hits)
+                if (hit.collider)
+                    return hit.point;
+
+            return source;
+        }
+    }
+
     public class WaitForSecondsOrInterrupt : CustomYieldInstruction
     {
         private float _time;
