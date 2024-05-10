@@ -7,6 +7,7 @@ namespace Game.Scripts.Player
     public class PlayerInput : MonoBehaviour
     {
         public event Action onInteract;
+        public event Action onFlash;
         private PlayerInputActions _playerInputActions;
         private bool _isRunning;
 
@@ -31,6 +32,7 @@ namespace Game.Scripts.Player
 
         private void OnFlash(InputAction.CallbackContext obj)
         {
+            onFlash?.Invoke();
         }
 
         private void OnInteract(InputAction.CallbackContext obj)

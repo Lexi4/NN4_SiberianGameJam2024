@@ -11,10 +11,7 @@ namespace Game.Scripts.UI
         [SerializeField] private List<Image> stages;
         private Image _stage;
         private Lantern _lantern;
-
-        private float GetNormalizedFuel()
-            => _lantern.Fuel / _lantern.StageCapacity;
-
+        
         private void Awake()
         {
             _lantern = GameObject.FindWithTag("Lantern").GetComponent<Lantern>();
@@ -30,37 +27,29 @@ namespace Game.Scripts.UI
         {
             if (!_update) return;
 
-            _stage = stages[_lantern.StageId];
             _lantern.OnStageChanged += OnStageChanged;
             _lantern.OnEmptied += OnEmptied;
-            _lantern.OnAddFuel += OnAddFuel;
         }
 
-        private void OnAddFuel()
+
+        private void UpdateView()
         {
-            for (int i = 0; i < _lantern.StageId; i++)
-            {
-                _stage = stages[i];
-                _stage.fillAmount = 1f;
-            }
-
-            _stage = stages[_lantern.StageId];
-            _stage.fillAmount = GetNormalizedFuel();
+            for (int i = 0; i < _lantern.StageCount; i++)
+                stages[i].fillAmount = _lantern.GetStageFuelNormalized(i);
         }
+
 
         private void Update()
         {
             if (!_update) return;
-
-            float fill = GetNormalizedFuel();
-            if (Mathf.Abs(fill) <= 0.0025f)
-                fill = 0;
-
-            _stage.fillAmount = fill;
+            
+            UpdateView();
         }
 
         private void OnEmptied()
         {
+            foreach (var stage in stages) 
+                stage.fillAmount = 0f;
         }
 
         private void OnStageChanged(int stageId)

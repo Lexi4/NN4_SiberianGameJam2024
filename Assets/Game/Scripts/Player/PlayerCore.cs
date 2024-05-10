@@ -20,6 +20,12 @@ namespace Game.Scripts.Player
         void Start()
         {
             _playerInput.onInteract += OnInteract;
+            _playerInput.onFlash += OnFlash;
+        }
+
+        private void OnFlash()
+        {
+            lantern.UseFlash();
         }
 
         private void OnInteract()

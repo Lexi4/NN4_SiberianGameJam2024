@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Scripts.Core;
+using UnityEngine;
 
 namespace Core
 {
