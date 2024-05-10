@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2388751911755435304}
   - component: {fileID: 8721029451713865357}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyGFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 111945283065256557}
   - component: {fileID: 742432783587229302}
   - component: {fileID: 7020783800517414775}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyRegular
   m_TagString: EnemyRegular
   m_Icon: {fileID: 0}
@@ -139,6 +139,7 @@ MonoBehaviour:
   aiPath: {fileID: 1091003289219307647}
   viewingZone: {fileID: 742432783587229302}
   patrolRadius: 5
+  patrolInterval: 2.5
 --- !u!114 &2509865925173334866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2521586378235714880}
   - component: {fileID: 2306002670947420886}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
