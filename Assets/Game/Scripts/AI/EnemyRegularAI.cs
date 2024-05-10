@@ -8,6 +8,7 @@ namespace AI
     public class EnemyRegularAI : BaseEnemyAI
     {
         [SerializeField] private float patrolRadius = 2.0f;
+        [SerializeField] private float patrolInterval = 2.5f;
 
         public EnemyRegularAI()
         {
@@ -32,7 +33,7 @@ namespace AI
             //Walk around. Search something (player)
             while (!target)
             {
-                yield return new WaitForSeconds(3.0f);
+                yield return Behaviour_Idle(patrolInterval);
                 
                 var randomOffset = math.remap(0.0f, 1.0f, -patrolRadius, patrolRadius, Random.value);
                 ai.destination = ai.position + (Vector3.right * randomOffset);
@@ -59,6 +60,19 @@ namespace AI
             ai.destination = ai.position;
 
             StartCoroutine(Behaviour_Patrol());
+        }
+        
+        public IEnumerator Behaviour_Idle(float waitTime)
+        {
+            float counter = 0f;
+            while (counter < waitTime)
+            {
+                if (target)
+                    ForceBehaviour(Behaviour_Chasing());
+
+                counter += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 }
