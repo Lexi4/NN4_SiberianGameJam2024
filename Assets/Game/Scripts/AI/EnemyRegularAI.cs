@@ -7,6 +7,7 @@ namespace AI
 {
     public class EnemyRegularAI : BaseEnemyAI
     {
+        [Header("Behaviour Patrol")]
         [SerializeField] private float patrolRadius = 2.0f;
         [SerializeField] private float patrolInterval = 2.5f;
 
