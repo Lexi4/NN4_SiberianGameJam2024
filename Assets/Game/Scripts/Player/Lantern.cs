@@ -57,6 +57,7 @@ namespace Game.Scripts.Player
         [SerializeField] private Stage emptyStage;
         [SerializeField] private Light2D lanternLight;
         [Header("Flash")] [SerializeField] private float flashCost;
+        [SerializeField] private float flashRadius;
         [SerializeField] private float flashAnimTime = 0.4f;
         [SerializeField] private Light2D flashLight;
 
@@ -72,7 +73,7 @@ namespace Game.Scripts.Player
 
         private float _currentLanternRotation;
         public event Action OnEmptied;
-        public event Action onFlashUsed;
+        public event Action<float> onFlashUsed;
         public event Action<int> OnStageChanged;
         private Light2D CurrentStageLight => _stage.lightConfig;
         private int _stageId;
@@ -188,7 +189,7 @@ namespace Game.Scripts.Player
             if (_isEmpty)
                 return;
             DecreaseFuel(flashCost);
-            onFlashUsed?.Invoke();
+            onFlashUsed?.Invoke(flashRadius);
             StartCoroutine(FlashAnimRoutine());
         }
 
@@ -239,7 +240,7 @@ namespace Game.Scripts.Player
                 SetLight(_stage.lightConfig);
             }
         }
-        
+
 
         private void Show()
         {
@@ -263,7 +264,7 @@ namespace Game.Scripts.Player
         private void RotateLantern(float amount)
         {
             float desAngle = lanternRotationAngle * Mathf.Sign(amount);
-            
+
             if (Mathf.Abs(amount) < 0.001f)
             {
                 desAngle = 0;
@@ -274,9 +275,9 @@ namespace Game.Scripts.Player
                 amount *= lanternRotationSpeedMultiplier;
             }
 
-            if (Mathf.Abs(_currentLanternRotation - desAngle) <= 0.01f) 
+            if (Mathf.Abs(_currentLanternRotation - desAngle) <= 0.01f)
                 _currentLanternRotation = desAngle;
-            
+
             _currentLanternRotation = Mathf.Lerp(_currentLanternRotation, desAngle, Mathf.Abs(amount));
             hand.transform.rotation = quaternion.Euler(0, 0, _currentLanternRotation * Mathf.Deg2Rad);
         }
