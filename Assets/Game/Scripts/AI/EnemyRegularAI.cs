@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Game.Scripts;
 using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -34,7 +36,7 @@ namespace AI
             //Walk around. Search something (player)
             while (!target)
             {
-                yield return Behaviour_Idle(patrolInterval);
+                yield return new WaitForSecondsOrInterrupt(patrolInterval, () => target);
                 
                 var randomOffset = math.remap(0.0f, 1.0f, -patrolRadius, patrolRadius, Random.value);
                 ai.destination = ai.position + (Vector3.right * randomOffset);
@@ -61,19 +63,6 @@ namespace AI
             ai.destination = ai.position;
 
             StartCoroutine(Behaviour_Patrol());
-        }
-        
-        public IEnumerator Behaviour_Idle(float waitTime)
-        {
-            float counter = 0f;
-            while (counter < waitTime)
-            {
-                if (target)
-                    ForceBehaviour(Behaviour_Chasing());
-
-                counter += Time.deltaTime;
-                yield return null;
-            }
         }
     }
 }
