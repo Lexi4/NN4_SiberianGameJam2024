@@ -1,10 +1,10 @@
 using System;
-using Unity.Mathematics;
+using Player;
 using UnityEngine;
 
-namespace Player
+namespace Game.Scripts.Player
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerMovementRb : MonoBehaviour
     {
         [Header("Movement")] [SerializeField, Range(0, 20)]
         private float maxWalkSpeed;
@@ -16,7 +16,9 @@ namespace Player
         [SerializeField] private float sprintAccelerationTime;
 
         [Header("Other")] [SerializeField] private GameObject body;
-        public Action<float> onMove;
+
+        public event Action<float> OnMove;
+        private Rigidbody2D _rb;
         private PlayerInput _playerInput;
         private bool _isOnFullWalkSpeed;
         private bool _isSprinting;
@@ -32,21 +34,26 @@ namespace Player
         private void Awake()
         {
             _playerInput = GetComponent<PlayerInput>();
+            _rb = GetComponent<Rigidbody2D>();
         }
 
-        private void Update()
+
+        private void FixedUpdate()
         {
             float amount = Move();
-            onMove?.Invoke(amount);
+            OnMove?.Invoke(amount);
             Flip();
         }
 
         private float Move()
         {
-            float moveAmount = GetSpeed() * Time.deltaTime * Input;
-            Vector3 newPos = transform.position + Vector3.right * moveAmount;
-            transform.position = newPos;
+            float velX = GetSpeed();
+            float velY = _rb.velocity.y;
 
+            if (velY > 0) velY *= 0.55f;
+
+            _rb.velocity = new Vector2(velX * Input, velY);
+            float moveAmount = velX * Time.fixedDeltaTime * Input;
             _prevInput = Input;
             return moveAmount;
         }
@@ -110,6 +117,7 @@ namespace Player
 
         private float GetWalkSpeed(float t)
             => walkSpeedCurve.Evaluate(t / walkAccelerationTime) * maxWalkSpeed;
+
 
         public bool IsSprinting => _isSprinting;
 

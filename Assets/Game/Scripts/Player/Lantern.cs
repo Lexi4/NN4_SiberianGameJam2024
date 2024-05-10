@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Scripts.Player;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Player
         [SerializeField] private float fuel = 100;
         [SerializeField] private float fuelBurnSpeed = 0.1f;
         [SerializeField] private Transform hand;
-        [SerializeField] private PlayerMovement player;
+        [SerializeField] private PlayerMovementRb player;
         [SerializeField] private float lanternRotationAngle = -15f;
         [SerializeField] private float lanternRotationSpeedMultiplier = 10f;
         [SerializeField] private float lanternReturnSpeed = 5f;
@@ -19,7 +20,7 @@ namespace Player
 
         private void Start()
         {
-            player.onMove += OnMove;
+            player.OnMove += OnMove;
         }
 
         private void Update()
