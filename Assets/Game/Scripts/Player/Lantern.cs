@@ -78,6 +78,7 @@ namespace Game.Scripts.Player
 
         public class FlashUsedEventArgs
         {
+            public Vector3 position;
             public float radius;
         }
 
@@ -205,7 +206,7 @@ namespace Game.Scripts.Player
 
             DecreaseFuel(flashCost);
             OnFlashUsed?.Invoke(this,
-                new FlashUsedEventArgs { radius = flashRadius });
+                new FlashUsedEventArgs { radius = flashRadius, position = gameObject.transform.position});
 
 
             StartCoroutine(FlashCooldownRoutine());
