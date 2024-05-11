@@ -41,6 +41,13 @@ namespace Game.Scripts.Player
                 {
                     AddFuelToLantern(spot.Amount);
                 }
+                else if (overlap.transform.TryGetComponent(out Bonfire bonfire))
+                {
+                    if (lantern.TryActivateBonfire(bonfire.Cost))
+                    {
+                        bonfire.SetActive();
+                    }
+                }
             }
         }
 

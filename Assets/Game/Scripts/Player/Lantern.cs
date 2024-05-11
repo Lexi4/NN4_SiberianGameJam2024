@@ -74,7 +74,13 @@ namespace Game.Scripts.Player
 
         private float _currentLanternRotation;
         public event Action OnEmptied;
-        public event Action<float> onFlashUsed;
+        public event EventHandler<FlashUsedEventArgs> OnFlashUsed;
+
+        public class FlashUsedEventArgs
+        {
+            public float radius;
+        }
+
         public event Action<int> OnStageChanged;
         private Light2D CurrentStageLight => _stage.lightConfig;
         private int _stageId;
@@ -83,9 +89,6 @@ namespace Game.Scripts.Player
         private bool _isEmpty;
         private bool _canUseFlash;
         public int StageCount => stages.Count;
-        public bool IsEmpty => _isEmpty;
-
-
         public float LanternRadius => _isEmpty ? 0 : _stage.lanternEffectiveRadius;
         public float LanternPower => _isEmpty ? 0 : _stage.lanternPower;
 
@@ -187,16 +190,35 @@ namespace Game.Scripts.Player
             }
         }
 
+        private float FuelLeft()
+        {
+            float s = 0;
+            foreach (var stage in stages) s += stage.currentFuel;
+
+            return s;
+        }
+
         public void UseFlash()
         {
-            if (_isEmpty || !_canUseFlash)
+            if (_isEmpty || !_canUseFlash || !_isActive || FuelLeft() < flashCost)
                 return;
-            
+
             DecreaseFuel(flashCost);
-            onFlashUsed?.Invoke(flashRadius);
-            
+            OnFlashUsed?.Invoke(this,
+                new FlashUsedEventArgs { radius = flashRadius });
+
+
             StartCoroutine(FlashCooldownRoutine());
             StartCoroutine(FlashAnimRoutine());
+        }
+
+        public bool TryActivateBonfire(float cost)
+        {
+            if (_isEmpty || !_isActive || FuelLeft() < cost)
+                return false;
+
+            DecreaseFuel(cost);
+            return true;
         }
 
         private IEnumerator FlashAnimRoutine()

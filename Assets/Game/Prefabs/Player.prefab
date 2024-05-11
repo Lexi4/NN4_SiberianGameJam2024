@@ -99,20 +99,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stages:
-  - capacity: 33.33333
-    currentFuel: 33.33333
+  - capacity: 34
+    currentFuel: 34
     burnSpeed: 1
     lanternEffectiveRadius: 3
     lanternPower: 1
     lightConfig: {fileID: 4424066330453911731, guid: e35c86386acfa9f40adea5ee3c24de69, type: 3}
-  - capacity: 33.33333
-    currentFuel: 33.33333
+  - capacity: 33
+    currentFuel: 33
     burnSpeed: 2
     lanternEffectiveRadius: 7
     lanternPower: 2
     lightConfig: {fileID: 8837082676441904764, guid: 526c1454a18677a44b33adb0d9289338, type: 3}
-  - capacity: 33.33333
-    currentFuel: 33.33333
+  - capacity: 33
+    currentFuel: 33
     burnSpeed: 5
     lanternEffectiveRadius: 12
     lanternPower: 3
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac9b7bf810eebf46b153b6bd3c27472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxWalkSpeed: 10
+  maxWalkSpeed: 7
   walkSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -614,15 +614,42 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  walkAccelerationTime: 1
-  maxRunSpeed: 10.01
+  walkAccelerationTime: 0.5
+  maxRunSpeed: 13
   runSpeedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9618263
+      value: 0.9921894
+      inSlope: 0.26697063
+      outSlope: 0.26697063
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.10505455
+      outSlope: 0.10505455
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.735888
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  runAccelerationTime: 0
+  runAccelerationTime: 2
   body: {fileID: 8941315605344969941}
 --- !u!114 &7224838969563927337
 MonoBehaviour:
