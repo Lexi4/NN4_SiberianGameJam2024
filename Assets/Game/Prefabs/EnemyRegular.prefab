@@ -137,9 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e2f3529b64ed48d0a635ffd653f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackRange: 1
+  AttackRange: 3
   AttackDuration: 3
-  animController: {fileID: 0}
+  animController: {fileID: 7536050446872193927}
   PatrolRadius: 4
   PatrolInterval: 1.5
   StunDuration: 5
@@ -331,7 +331,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3589511985972179010}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
