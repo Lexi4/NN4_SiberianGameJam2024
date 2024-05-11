@@ -90,8 +90,8 @@ namespace Game.Scripts.Player
         private bool _isEmpty;
         private bool _canUseFlash;
         public int StageCount => stages.Count;
-        public float LanternRadius => _isEmpty ? 0 : _stage.lanternEffectiveRadius;
-        public int LanternPower => _isEmpty ? 0 : _stage.lanternPower;
+        public float LanternRadius => _isEmpty || !_isActive ? 0 : _stage.lanternEffectiveRadius;
+        public int LanternPower => _isEmpty || !_isActive ? 0 : _stage.lanternPower;
 
         public float GetStageFuelNormalized(int idx)
         {
