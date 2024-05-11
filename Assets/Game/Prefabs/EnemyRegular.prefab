@@ -137,12 +137,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e2f3529b64ed48d0a635ffd653f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackRange: 3
+  AttackRange: 2
   AttackDuration: 3
   animController: {fileID: 7536050446872193927}
   PatrolRadius: 4
   PatrolInterval: 1.5
-  StunDuration: 5
+  StunDuration: 4
 --- !u!114 &2509865925173334866
 MonoBehaviour:
   m_ObjectHideFlags: 0

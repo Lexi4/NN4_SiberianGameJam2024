@@ -55,6 +55,11 @@ namespace NPC
             Debug.LogError($"{gameObject.name} behaviour: RunAway");
             while (Target != null)
             {
+                if (Target.GetActivePower() < 1)
+                {
+                    break;
+                }
+
                 AI.destination = UtilsAI.GetRunAwayPoint(AI, Target, 0);
 
                 animController.MovingAnimation = IsMoving;
