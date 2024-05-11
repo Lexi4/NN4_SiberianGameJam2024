@@ -1,5 +1,6 @@
 using System;
 using Game.Scripts.Interactable;
+using Game.Scripts.UI;
 using UnityEngine;
 
 namespace Game.Scripts.Player
@@ -10,6 +11,7 @@ namespace Game.Scripts.Player
         [SerializeField] private float interactRadius;
         [SerializeField] private LayerMask interactableLayers;
         [SerializeField] private Lantern lantern;
+        [SerializeField] private LevelUI levelUI;
         private PlayerInput _playerInput;
 
         private void Awake()
@@ -65,6 +67,7 @@ namespace Game.Scripts.Player
         public void TakeDamage()
         {
             Debug.Log("Game Over!!!");
+            levelUI.ShowGameOver();
         }
 
         public float GetActiveRadius() => lantern.LanternRadius;
