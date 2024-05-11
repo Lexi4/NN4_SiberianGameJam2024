@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Game.Scripts.UI
@@ -9,7 +10,7 @@ namespace Game.Scripts.UI
     {
         [SerializeField] private Button play, credits, quit, returnToMenu;
         [SerializeField] private GameObject menuScreen, creditsScreen;
-        
+
         void Start()
         {
             play.onClick.AddListener(OnPlay);
@@ -28,6 +29,7 @@ namespace Game.Scripts.UI
 
         private void OnPlay()
         {
+            SceneManager.LoadScene("Level");
         }
 
         private void OnCredits()

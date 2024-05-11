@@ -6,9 +6,9 @@ namespace Game.Scripts.Interactable
     {
         [SerializeField] public float Amount;
 
-        public void Interact()
+        public virtual void Interact()
         {
-            
+            Destroy(gameObject);
         }
     }
 }

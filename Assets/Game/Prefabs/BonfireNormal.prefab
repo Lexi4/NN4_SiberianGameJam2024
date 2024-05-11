@@ -52,6 +52,7 @@ MonoBehaviour:
   cost: 7
   burnSpeed: 0
   fuelCapacity: 10
+  power: 0
   lightSource: {fileID: 8508798701001112218}
   activeLight: {fileID: 3714651106921382818, guid: 3fc09fd78ebc80f47b11218547f4f376, type: 3}
   inactiveLight: {fileID: 1078718142110105032, guid: b44c3d9210e9cea46ae82d740e1bbcc3, type: 3}
@@ -239,8 +240,8 @@ MonoBehaviour:
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
-  m_ShadowIntensityEnabled: 0
-  m_ShadowIntensity: 0.75
+  m_ShadowIntensityEnabled: 1
+  m_ShadowIntensity: 0
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:

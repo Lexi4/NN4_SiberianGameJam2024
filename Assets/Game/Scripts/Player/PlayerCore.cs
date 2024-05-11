@@ -30,16 +30,21 @@ namespace Game.Scripts.Player
 
         private void OnInteract()
         {
-            Collider2D overlap = Physics2D.OverlapCircle(
-                interactPoint.position,
+            Collider2D[] res = Physics2D.OverlapCircleAll(interactPoint.position,
                 interactRadius,
                 interactableLayers);
 
-            if (overlap != null)
+            for (int i = 0; i < res.Length; i++)
             {
+                var overlap = res[i];
+                
+                if (overlap == null) continue;
+
+
                 if (overlap.transform.TryGetComponent(out OilSpot spot))
                 {
                     AddFuelToLantern(spot.Amount);
+                    spot.Interact();
                 }
                 else if (overlap.transform.TryGetComponent(out Bonfire bonfire))
                 {
