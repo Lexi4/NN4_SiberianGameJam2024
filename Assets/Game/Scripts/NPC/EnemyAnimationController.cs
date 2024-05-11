@@ -4,19 +4,17 @@ namespace NPC
 {
     public class EnemyAnimationController : MonoBehaviour
     {
-        [Header("Animation")]
-        [SerializeField] public Animator animator;
+        [Header("Animation")] [SerializeField] public Animator animator;
+
         public int MovingAnimation
         {
-            get => Animator.StringToHash("MovingAnimation");
+            get => Animator.StringToHash("IsWalk");
             set
             {
                 if (value > 0)
                 {
                     animator.SetBool(MovingAnimation, true);
                     animator.SetBool(IdleAnimation, false);
-                    animator.SetBool(StunAnimation, false);
-                    animator.SetBool(AttackAnimation, false);
                 }
                 else
                 {
@@ -24,45 +22,42 @@ namespace NPC
                 }
             }
         }
+
         public int IdleAnimation
         {
-            get => Animator.StringToHash("IdleAnimation");
+            get => Animator.StringToHash("IsIdle");
             set
             {
                 if (value > 0)
                 {
                     animator.SetBool(MovingAnimation, false);
                     animator.SetBool(IdleAnimation, true);
-                    animator.SetBool(StunAnimation, false);
-                    animator.SetBool(AttackAnimation, false);
                 }
             }
         }
+
         public int StunAnimation
         {
-            get => Animator.StringToHash("StunAnimation");
+            get => Animator.StringToHash("IsIdle");
             set
             {
                 if (value > 0)
                 {
                     animator.SetBool(MovingAnimation, false);
                     animator.SetBool(IdleAnimation, true);
-                    animator.SetBool(StunAnimation, false);
-                    animator.SetBool(AttackAnimation, false);
                 }
             }
         }
+
         public int AttackAnimation
         {
-            get => Animator.StringToHash("AttackAnimation");
+            get => Animator.StringToHash("IsWalk");
             set
             {
                 if (value > 0)
                 {
                     animator.SetBool(MovingAnimation, false);
                     animator.SetBool(IdleAnimation, false);
-                    animator.SetBool(StunAnimation, false);
-                    animator.SetBool(AttackAnimation, true);
                 }
             }
         }

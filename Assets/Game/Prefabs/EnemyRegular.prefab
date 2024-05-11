@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2388751911755435304}
   - component: {fileID: 8721029451713865357}
+  - component: {fileID: 5548567460426949656}
   m_Layer: 7
   m_Name: EnemyGFX
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 2728924484511452002}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.02, z: 0}
+  m_LocalScale: {x: 4.61672, y: 4.61672, z: 4.61672}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2293999927375654700}
@@ -72,8 +73,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
-  m_Sprite: {fileID: 1049969560, guid: 712a5081279c98941afabfe1df76362f, type: 3}
+  m_SortingOrder: 7
+  m_Sprite: {fileID: 1277601837, guid: 31da5629701d39a479735fcc2a1361e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5548567460426949656
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2728924484511452002}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f29c46c58b9fc7542be439d122624c51, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3589511985972179010
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,7 +122,6 @@ GameObject:
   - component: {fileID: 742432783587229302}
   - component: {fileID: 7020783800517414775}
   - component: {fileID: 7536050446872193927}
-  - component: {fileID: 2289039509343457796}
   m_Layer: 7
   m_Name: EnemyRegular
   m_TagString: EnemyRegular
@@ -117,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 3589511985972179010}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -137,12 +158,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091e2f3529b64ed48d0a635ffd653f14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackRange: 2
-  AttackDuration: 3
-  animController: {fileID: 7536050446872193927}
-  PatrolRadius: 4
-  PatrolInterval: 1.5
-  StunDuration: 4
+  AttackRange: 0
+  AttackDuration: 0
+  animController: {fileID: 0}
+  PatrolRadius: 2
+  PatrolInterval: 2.5
+  StunDuration: 3
 --- !u!114 &2509865925173334866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 5
-  radius: 0.5
+  radius: 2
   height: 2
   canMove: 1
   maxSpeed: 6
@@ -273,7 +294,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 2, y: 2}
   m_Direction: 0
 --- !u!58 &7020783800517414775
 CircleCollider2D:
@@ -322,28 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa27a9c23a04f2a9dae7ef9df6cbf34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 2289039509343457796}
---- !u!95 &2289039509343457796
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3589511985972179010}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  animator: {fileID: 5548567460426949656}
 --- !u!1 &4403568525064707911
 GameObject:
   m_ObjectHideFlags: 0

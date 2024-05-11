@@ -52,7 +52,6 @@ namespace NPC
 
         public IEnumerator Behaviour_RunAway()
         {
-            Debug.LogError($"{gameObject.name} behaviour: RunAway");
             while (Target != null)
             {
                 if (Target.GetActivePower() < 1)
@@ -72,7 +71,7 @@ namespace NPC
 
         public IEnumerator Behaviour_Chasing()
         {
-            Debug.LogError($"{gameObject.name} behaviour: Chasing");
+
             while (Target != null)
             {
                 if (UtilsAI.IsAffectedByLightHolder(AI, Target))
@@ -98,7 +97,7 @@ namespace NPC
 
         public IEnumerator Behaviour_Stun()
         {
-            Debug.LogError($"{gameObject.name} behaviour: Stun");
+      
             AI.destination = AI.position;
             animController.StunAnimation = 1;
             yield return new WaitForSeconds(StunDuration);
