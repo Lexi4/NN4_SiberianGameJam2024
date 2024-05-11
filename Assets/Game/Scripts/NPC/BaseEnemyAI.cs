@@ -7,45 +7,47 @@ using Game.Scripts.Player;
 using Pathfinding;
 using Pathfinding.Util;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AI
 {
     public class BaseEnemyAI : MonoBehaviour
     {
+        protected int IsMoving => Convert.ToInt32(!(AI.reachedDestination || AI.reachedEndOfPath));
+
+        [Header("Attack Behaviour")]
         [SerializeField] public float AttackRange;
         [SerializeField] public float AttackDuration;
         
         public IAstarAI AI;
-        public List<ILightHolder> possibleTargets;
-        public List<ILightHolder> activeTargets;
-        public ILightHolder target;
+        public EnemyAnimationController animController;
+        public List<ILightHolder> PossibleTargets;
+        public List<ILightHolder> ActiveTargets;
+        public ILightHolder Target;
         
         protected IEnumerator defaultBehaviour;
 
         public BaseEnemyAI()
         {
-            possibleTargets = new List<ILightHolder>();
-            activeTargets = new List<ILightHolder>();
+            PossibleTargets = new List<ILightHolder>();
+            ActiveTargets = new List<ILightHolder>();
         }
 
         protected virtual void Update()
         {
             //Update active targets (not event based now)
-            activeTargets.ClearFast();
-            foreach (var possibleTarget in possibleTargets)
-            {
-                if (possibleTarget != null && possibleTarget.GetActivePower() > 0)
-                    activeTargets.Add(possibleTarget);
-            }
+            UpdateTargets();
         }
 
         private void OnEnable()
         {
             AI = GetComponent<IAstarAI>();
+            animController = GetComponent<EnemyAnimationController>();
         }
 
         private void OnDisable()
         {
+            animController = null;
             AI = null;
         }
 
@@ -86,26 +88,41 @@ namespace AI
         private void OnTriggerEnter2D(Collider2D other)
         {
             var newTarget = other.gameObject.GetComponentInChildren<ILightHolder>();
-            if(newTarget != null) 
-                possibleTargets.Add(newTarget);
+            if (newTarget != null)
+            {
+                PossibleTargets.Add(newTarget);
+                UpdateTargets();
+            }
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
             var newTarget = other.gameObject.GetComponentInChildren<ILightHolder>();
-            if(newTarget != null) 
-                possibleTargets.Remove(newTarget);
+            if (newTarget != null)
+            {
+                PossibleTargets.Remove(newTarget);
+                UpdateTargets();
+            }
+        }
+
+        protected virtual void UpdateTargets()
+        {
+            ActiveTargets.ClearFast();
+            foreach (var possibleTarget in PossibleTargets)
+            {
+                if (possibleTarget != null && possibleTarget.GetActivePower() > 0)
+                    ActiveTargets.Add(possibleTarget);
+            }
         }
 
         protected IEnumerator Behaviour_Attack()
         {
-            if (target == null)
+            if (Target == null)
             {
                 yield break;
             }
-            
-            target.TakeDamage();
-            yield return new WaitForSeconds(AttackDuration);
+            animController.AttackAnimation = 1;
+            Target.TakeDamage();
         }
 
         protected virtual void OnFlash()

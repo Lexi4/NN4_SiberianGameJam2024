@@ -16,14 +16,15 @@ namespace AI
         protected override void Update()
         {
             base.Update();
-            target = UtilsAI.GetNearestActiveTarget(this);
+            Target = UtilsAI.GetNearestActiveTarget(this);
         }
 
         public IEnumerator Behaviour_Patrol()
         {
-            while (target == null)
+            while (Target == null)
             {
                 AI.destination = AI.position;
+                animController.MovingAnimation = IsMoving;
                 yield return null;
             }
             StartCoroutine(Behaviour_Chasing());
@@ -31,13 +32,14 @@ namespace AI
 
         public IEnumerator Behaviour_Chasing()
         {
-            while (target != null)
+            while (Target != null)
             {
-                if (UtilsAI.IsAffectedByLightHolder(AI, target))
+                if (UtilsAI.IsAffectedByLightHolder(AI, Target))
                 {
-                    AI.destination = Utils.PosToGround(target.GetPosition());
+                    AI.destination = Utils.PosToGround(Target.GetPosition());
+                    animController.MovingAnimation = IsMoving;
                     
-                    if (UtilsAI.CanAttackTarget(this, target))
+                    if (UtilsAI.CanAttackTarget(this, Target))
                     {
                         StartCoroutine(Behaviour_Attack());
                         yield break;

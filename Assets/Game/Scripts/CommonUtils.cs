@@ -69,13 +69,13 @@ namespace Game.Scripts
 
         public static ILightHolder GetNearestTarget(BaseEnemyAI self)
         {
-            var result = GetNearestTargetInList(self.AI.position, self.possibleTargets);
+            var result = GetNearestTargetInList(self.AI.position, self.PossibleTargets);
             return result;
         }
         
         public static ILightHolder GetPlayerTarget(BaseEnemyAI self)
         {
-            foreach (var possibleTarget in self.possibleTargets)
+            foreach (var possibleTarget in self.PossibleTargets)
             {
                 if (((MonoBehaviour)possibleTarget).gameObject.CompareTag("Player"))
                     return possibleTarget;
@@ -85,7 +85,7 @@ namespace Game.Scripts
         
         public static ILightHolder GetNearestActiveTarget(BaseEnemyAI self)
         {
-            var result = GetNearestTargetInList(self.AI.position, self.activeTargets);
+            var result = GetNearestTargetInList(self.AI.position, self.ActiveTargets);
             return result;
         }
         

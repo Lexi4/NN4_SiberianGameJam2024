@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Game.Scripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AI
 {
     public class EnemyRegularAI : BaseEnemyAI
     {
+
         [Header("Behaviour Patrol")]
-        [SerializeField] private float patrolRadius = 2.0f;
-        [SerializeField] private float patrolInterval = 2.5f;
-        [SerializeField] private float attackDuration = 0.5f;
-        [SerializeField] private float stunDuration = 3.0f;
+        [SerializeField] public float PatrolRadius = 2.0f;
+        [SerializeField] public float PatrolInterval = 2.5f;
+        [SerializeField] public float StunDuration = 3.0f;
 
         public EnemyRegularAI()
         {
@@ -22,7 +23,7 @@ namespace AI
         protected override void Update()
         {
             base.Update();
-            target = UtilsAI.GetPlayerTarget(this);
+            Target = UtilsAI.GetPlayerTarget(this);
         }
 
         protected new void OnFlash()
@@ -32,11 +33,16 @@ namespace AI
 
         public IEnumerator Behaviour_Patrol()
         {
-            while (target == null)
+            while (Target == null)
             {
+                AI.destination = UtilsAI.GetNextPatrolPoint(AI, PatrolRadius);
+                
                 //Don't do anything 3 seconds but keep eye on target
-                yield return new WaitForSecondsOrInterrupt(patrolInterval, () => target != null);
-                AI.destination = UtilsAI.GetNextPatrolPoint(AI, patrolRadius);
+                yield return new WaitForSecondsOrInterrupt(PatrolInterval, () =>
+                {
+                    animController.MovingAnimation = IsMoving;
+                    return Target != null;
+                });
 
                 yield return null;
             }
@@ -46,10 +52,12 @@ namespace AI
 
         public IEnumerator Behaviour_RunAway()
         {
-
-            while (target != null)
+            while (Target != null)
             {
-                AI.destination = UtilsAI.GetRunAwayPoint(AI, target, 5);
+                AI.destination = UtilsAI.GetRunAwayPoint(AI, Target, 5);
+
+                animController.MovingAnimation = IsMoving;
+
                 yield return null;
             }
 
@@ -58,33 +66,34 @@ namespace AI
 
         public IEnumerator Behaviour_Chasing()
         {
-            while (target != null)
+            while (Target != null)
             {
-                if (UtilsAI.IsAffectedByLightHolder(AI, target))
+                if (UtilsAI.IsAffectedByLightHolder(AI, Target))
                 {
                     StartCoroutine(Behaviour_RunAway());
                     yield break;
                 }
 
-                AI.destination = Utils.PosToGround(target.GetPosition());
-                
-                if (UtilsAI.CanAttackTarget(this, target))
+                if (UtilsAI.CanAttackTarget(this, Target))
                 {
-                    target.TakeDamage();
-                    yield return new WaitForSeconds(attackDuration);
+                    StartCoroutine(Behaviour_Attack());
+                    yield break;
                 }
 
+                AI.destination = Utils.PosToGround(Target.GetPosition());
+                
+                animController.MovingAnimation = IsMoving;
+                
                 yield return null;
             }
-            AI.destination = AI.position;
-
             StartCoroutine(Behaviour_Patrol());
         }
 
         public IEnumerator Behaviour_Stun()
         {
             AI.destination = AI.position;
-            yield return new WaitForSeconds(stunDuration);
+            animController.StunAnimation = 1;
+            yield return new WaitForSeconds(StunDuration);
             StartCoroutine(Behaviour_Patrol());
         }
     }
