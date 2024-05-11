@@ -2,21 +2,19 @@
 using Game.Scripts;
 using UnityEngine;
 
-namespace AI
+namespace NPC
 {
     public class EnemyCeilingAI : BaseEnemyAI
     {
-        [SerializeField] private float attackDuration = 0.5f;
-
         public EnemyCeilingAI()
         {
             defaultBehaviour = Behaviour_Patrol();
         }
 
-        protected override void Update()
+        protected override void UpdateTargets()
         {
-            base.Update();
-            Target = UtilsAI.GetNearestActiveTarget(this);
+            base.UpdateTargets();
+            Target = UtilsAI.GetNearestActiveTarget(this); 
         }
 
         public IEnumerator Behaviour_Patrol()

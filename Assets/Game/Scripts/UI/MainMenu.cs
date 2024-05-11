@@ -1,4 +1,5 @@
 using System;
+using Game.Scripts.Core;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,7 +30,7 @@ namespace Game.Scripts.UI
 
         private void OnPlay()
         {
-            SceneManager.LoadScene("Level");
+            GameInstance.Get().LoadScene("Level");
         }
 
         private void OnCredits()

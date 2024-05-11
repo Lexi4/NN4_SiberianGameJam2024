@@ -52,13 +52,8 @@ namespace Game.Scripts.Core
 
         private IEnumerator LoadSceneAsync(string levelName)
         {
-            AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(levelName, LoadSceneMode.Single);
-            Debug.Assert(asyncLoadLevel != null, nameof(asyncLoadLevel) + " != null");
-            while (!asyncLoadLevel.isDone)
-                yield return null;
-
-            yield return CreateWorld();
-
+            SceneManager.LoadScene(levelName, LoadSceneMode.Single);
+            CurrentWorld = new World();
             onLevelLoadedEvent.Invoke(CurrentWorld);
             yield break;
         }

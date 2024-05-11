@@ -9,7 +9,7 @@ using Pathfinding.Util;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace AI
+namespace NPC
 {
     public class BaseEnemyAI : MonoBehaviour
     {
@@ -54,8 +54,8 @@ namespace AI
         protected virtual void Start()
         {
             StartCoroutine(defaultBehaviour);
-            
-            var lantern = World.Get().Player.GetComponentInChildren<Lantern>();
+
+            var lantern = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Lantern>();
             if(lantern)
                 lantern.OnFlashUsed += OnFlashUsedHandler;
         }
@@ -76,13 +76,6 @@ namespace AI
         protected virtual void OnDestroy()
         { 
             StopAllCoroutines();
-
-            var world = World.Get();
-            if (world == null || world.Player == null) 
-                return;
-            var lantern = world.Player.GetComponentInChildren<Lantern>();
-            if(lantern) 
-                lantern.OnFlashUsed -= OnFlashUsedHandler;
         }
         
         private void OnTriggerEnter2D(Collider2D other)
@@ -117,6 +110,7 @@ namespace AI
 
         protected IEnumerator Behaviour_Attack()
         {
+            Debug.LogError($"{gameObject.name} behaviour: Attack");
             if (Target == null)
             {
                 yield break;
@@ -127,7 +121,6 @@ namespace AI
 
         protected virtual void OnFlash()
         {
-            throw new NotImplementedException();
         }
     }
 }

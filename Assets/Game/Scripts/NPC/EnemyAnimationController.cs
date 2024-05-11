@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AI
+namespace NPC
 {
     public class EnemyAnimationController : MonoBehaviour
     {

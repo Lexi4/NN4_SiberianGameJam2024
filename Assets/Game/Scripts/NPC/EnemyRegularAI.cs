@@ -5,7 +5,7 @@ using Game.Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace AI
+namespace NPC
 {
     public class EnemyRegularAI : BaseEnemyAI
     {
@@ -20,13 +20,13 @@ namespace AI
             defaultBehaviour = Behaviour_Patrol();
         }
 
-        protected override void Update()
+        protected override void UpdateTargets()
         {
-            base.Update();
+            base.UpdateTargets();
             Target = UtilsAI.GetPlayerTarget(this);
         }
 
-        protected new void OnFlash()
+        protected override void OnFlash()
         {
             ChangeBehaviour(Behaviour_Stun());
         }
@@ -52,9 +52,10 @@ namespace AI
 
         public IEnumerator Behaviour_RunAway()
         {
+            Debug.LogError($"{gameObject.name} behaviour: RunAway");
             while (Target != null)
             {
-                AI.destination = UtilsAI.GetRunAwayPoint(AI, Target, 5);
+                AI.destination = UtilsAI.GetRunAwayPoint(AI, Target, 0);
 
                 animController.MovingAnimation = IsMoving;
 
@@ -66,6 +67,7 @@ namespace AI
 
         public IEnumerator Behaviour_Chasing()
         {
+            Debug.LogError($"{gameObject.name} behaviour: Chasing");
             while (Target != null)
             {
                 if (UtilsAI.IsAffectedByLightHolder(AI, Target))
@@ -91,6 +93,7 @@ namespace AI
 
         public IEnumerator Behaviour_Stun()
         {
+            Debug.LogError($"{gameObject.name} behaviour: Stun");
             AI.destination = AI.position;
             animController.StunAnimation = 1;
             yield return new WaitForSeconds(StunDuration);

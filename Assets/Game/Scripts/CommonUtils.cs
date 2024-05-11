@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AI;
+using NPC;
 using Game.Scripts.Player;
 using Pathfinding;
 using Unity.Mathematics;
@@ -38,10 +38,9 @@ namespace Game.Scripts
         public static Vector3 GetRunAwayPoint(IAstarAI ai, ILightHolder target, float distanceFromLaternEdge)
         {
             var awayVector = (ai.position - target.GetPosition());
-            awayVector.y = 0;
 
             var remainAwayDist = target.GetActiveRadius() - awayVector.magnitude;
-            var runAwayDestination = ai.position + (awayVector.normalized * (remainAwayDist * distanceFromLaternEdge));
+            var runAwayDestination = ai.position + (awayVector.normalized * remainAwayDist);
             
             runAwayDestination.y += 4.0f;
             runAwayDestination = Utils.PosToGround(runAwayDestination);
@@ -113,7 +112,7 @@ namespace Game.Scripts
         public static bool CanAttackTarget(BaseEnemyAI self, ILightHolder target)
         {
             var targetMagnitude = (target.GetPosition() - self.AI.position).magnitude;
-            return targetMagnitude <= self.AttackRange;
+            return targetMagnitude < self.AttackRange;
         }
     }
 
