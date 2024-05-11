@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Game.Scripts;
-using Unity.Mathematics;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace AI
 {
@@ -11,56 +11,80 @@ namespace AI
         [Header("Behaviour Patrol")]
         [SerializeField] private float patrolRadius = 2.0f;
         [SerializeField] private float patrolInterval = 2.5f;
+        [SerializeField] private float attackDuration = 0.5f;
+        [SerializeField] private float stunDuration = 3.0f;
 
         public EnemyRegularAI()
         {
             defaultBehaviour = Behaviour_Patrol();
         }
-        private void OnTriggerEnter2D (Collider2D other)
+
+        protected override void Update()
         {
-            Debug.Log ($"{gameObject.name} collided with {other.gameObject.name}");
-            
-            if (!other.gameObject.CompareTag("Player")) return;
-                target = other.gameObject;
+            base.Update();
+            target = UtilsAI.GetPlayerTarget(this);
         }
-        private void OnTriggerExit2D (Collider2D other)
+
+        protected new void OnFlash()
         {
-            Debug.Log ($"A {other.gameObject.name} has exited the {gameObject.name} trigger");
-            if (!other.gameObject.CompareTag("Player")) return;
-                target = null;
+            ChangeBehaviour(Behaviour_Stun());
         }
 
         public IEnumerator Behaviour_Patrol()
         {
-            while (!target)
+            while (target == null)
             {
                 //Don't do anything 3 seconds but keep eye on target
-                yield return new WaitForSecondsOrInterrupt(patrolInterval, () => target);
-                
-                //Walk around. Search something (player)
-                var randomOffset = math.remap(0.0f, 1.0f, -patrolRadius, patrolRadius, Random.value);
-                ai.destination = ai.position + (Vector3.right * randomOffset);
+                yield return new WaitForSecondsOrInterrupt(patrolInterval, () => target != null);
+                AI.destination = UtilsAI.GetNextPatrolPoint(AI, patrolRadius);
 
                 yield return null;
             }
+
             StartCoroutine(Behaviour_Chasing());
         }
-        
+
         public IEnumerator Behaviour_RunAway()
         {
-            //Play anim. Find target position away from light 
-            yield break;
-        }
-        
-        public IEnumerator Behaviour_Chasing()
-        {
-            while (target)
+
+            while (target != null)
             {
-                ai.destination = target.transform.position;
+                AI.destination = UtilsAI.GetRunAwayPoint(AI, target, 5);
                 yield return null;
             }
-            ai.destination = ai.position;
 
+            StartCoroutine(Behaviour_Chasing());
+        }
+
+        public IEnumerator Behaviour_Chasing()
+        {
+            while (target != null)
+            {
+                if (UtilsAI.IsAffectedByLightHolder(AI, target))
+                {
+                    StartCoroutine(Behaviour_RunAway());
+                    yield break;
+                }
+
+                AI.destination = Utils.PosToGround(target.GetPosition());
+                
+                if (UtilsAI.CanAttackTarget(this, target))
+                {
+                    target.TakeDamage();
+                    yield return new WaitForSeconds(attackDuration);
+                }
+
+                yield return null;
+            }
+            AI.destination = AI.position;
+
+            StartCoroutine(Behaviour_Patrol());
+        }
+
+        public IEnumerator Behaviour_Stun()
+        {
+            AI.destination = AI.position;
+            yield return new WaitForSeconds(stunDuration);
             StartCoroutine(Behaviour_Patrol());
         }
     }
