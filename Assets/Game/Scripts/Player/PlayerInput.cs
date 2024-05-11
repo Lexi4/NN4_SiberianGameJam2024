@@ -1,4 +1,5 @@
 using System;
+using Game.Scripts.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ namespace Game.Scripts.Player
 {
     public class PlayerInput : MonoBehaviour
     {
+        [SerializeField] private LevelUI levelUI;
         public event Action onInteract;
         public event Action onFlash;
         private PlayerInputActions _playerInputActions;
@@ -24,6 +26,22 @@ namespace Game.Scripts.Player
             _playerInputActions.Player.Interact.performed += OnInteract;
             _playerInputActions.Player.Flash.performed += OnFlash;
             _playerInputActions.Player.FireLantern.performed += OnFireLantern;
+            _playerInputActions.Player.Esc.performed += OnEsc;
+        }
+
+        private void OnDisable()
+        {
+            _playerInputActions.Player.Run.started -= OnRunStarted;
+            _playerInputActions.Player.Run.canceled -= OnRunEnded;
+            _playerInputActions.Player.Interact.performed -= OnInteract;
+            _playerInputActions.Player.Flash.performed -= OnFlash;
+            _playerInputActions.Player.FireLantern.performed -= OnFireLantern;
+            _playerInputActions.Player.Esc.performed -= OnEsc;
+        }
+
+        private void OnEsc(InputAction.CallbackContext obj)
+        {
+            levelUI.ShowMenu();
         }
 
         private void OnFireLantern(InputAction.CallbackContext obj)
