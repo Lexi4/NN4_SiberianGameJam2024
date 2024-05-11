@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Scripts.Player
 {
-    public class PlayerCore : MonoBehaviour
+    public class PlayerCore : MonoBehaviour, ILightHolder
     {
         [SerializeField] private Transform interactPoint;
         [SerializeField] private float interactRadius;
@@ -43,6 +43,7 @@ namespace Game.Scripts.Player
                 }
                 else if (overlap.transform.TryGetComponent(out Bonfire bonfire))
                 {
+                    if (bonfire.IsActive) return;
                     if (lantern.TryActivateBonfire(bonfire.Cost))
                     {
                         bonfire.SetActive();
@@ -55,5 +56,16 @@ namespace Game.Scripts.Player
         {
             lantern.AddFuel(amount);
         }
+
+        public void TakeDamage()
+        {
+            Debug.Log("Game Over!!!");
+        }
+
+        public float GetActiveRadius() => lantern.LanternRadius;
+
+        public int GetActivePower() => lantern.LanternPower;
+
+        public Vector3 GetPosition() => transform.position;
     }
 }

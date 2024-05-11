@@ -5,12 +5,13 @@ using UnityEngine.Rendering.Universal;
 
 namespace Game.Scripts.Interactable
 {
-    public class Bonfire : MonoBehaviour
+    public class Bonfire : MonoBehaviour, ILightHolder
     {
         [Header("Logic")] [SerializeField] private float effectiveRadius;
         [SerializeField] private float cost;
         [SerializeField] private float burnSpeed;
         [SerializeField] private float fuelCapacity;
+        [SerializeField] private int power;
         private float _fuel;
 
         [Header("View")] [SerializeField] private Light2D lightSource;
@@ -65,7 +66,7 @@ namespace Game.Scripts.Interactable
                 inactiveState, activeState));
         }
 
-        public void SetInactive()
+        private void SetInactive()
         {
             if (!IsActive)
                 return;
@@ -110,6 +111,16 @@ namespace Game.Scripts.Interactable
         }
 
         public float Cost => cost;
-        public float Radius => effectiveRadius;
+        
+        public void TakeDamage()
+        {
+            SetInactive();
+        }
+
+        public float GetActiveRadius() => effectiveRadius;
+
+        public int GetActivePower() => IsActive ? power : 0;
+
+        public Vector3 GetPosition() => transform.position;
     }
 }

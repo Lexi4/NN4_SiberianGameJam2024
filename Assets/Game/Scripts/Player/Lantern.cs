@@ -14,7 +14,7 @@ namespace Game.Scripts.Player
         [SerializeField] public float currentFuel;
         [SerializeField] public float burnSpeed;
         [SerializeField] public float lanternEffectiveRadius;
-        [SerializeField] public float lanternPower;
+        [SerializeField] public int lanternPower;
         [SerializeField] public Light2D lightConfig;
 
         public float BurnFuel(float dt)
@@ -90,7 +90,7 @@ namespace Game.Scripts.Player
         private bool _canUseFlash;
         public int StageCount => stages.Count;
         public float LanternRadius => _isEmpty ? 0 : _stage.lanternEffectiveRadius;
-        public float LanternPower => _isEmpty ? 0 : _stage.lanternPower;
+        public int LanternPower => _isEmpty ? 0 : _stage.lanternPower;
 
         public float GetStageFuelNormalized(int idx)
         {

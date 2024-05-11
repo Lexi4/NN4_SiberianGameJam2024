@@ -11,7 +11,7 @@ namespace Game.Scripts.UI
         [SerializeField] private List<Image> stages;
         private Image _stage;
         private Lantern _lantern;
-        
+
         private void Awake()
         {
             _lantern = GameObject.FindWithTag("Lantern").GetComponent<Lantern>();
@@ -42,13 +42,13 @@ namespace Game.Scripts.UI
         private void Update()
         {
             if (!_update) return;
-            
+
             UpdateView();
         }
 
         private void OnEmptied()
         {
-            foreach (var stage in stages) 
+            foreach (var stage in stages)
                 stage.fillAmount = 0f;
         }
 
